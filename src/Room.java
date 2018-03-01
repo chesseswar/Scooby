@@ -1,20 +1,24 @@
 import java.util.*;
 
 public class Room {
-    HashMap<Character, Room> connections;
+    HashSet<Room> connections;
     char key;
 
     public Room(char character){
         key = character;
+        connections = new HashSet<>();
     }
 
     public void connect(Room other){
-        connections.put(other.key, other);
-        other.connections.put(this.key, this);
+        connections.add(other);
+        other.connections.add(this);
     }
 
     public String toString(){
-        String output = key + " " + connections.keySet().toString();
+        String output = key + "\nconnections: ";
+        for (Room r : connections){
+            output += Character.toString(r.key) + " ";
+        }
         return output;
     }
 }
