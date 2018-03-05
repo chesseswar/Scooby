@@ -1,43 +1,31 @@
 import java.util.*;
 
 public class Graph {
-    HashSet<Character>[] rooms;
-    int numRooms;
-    public Graph(int num){
-        int numRooms = num;
-        rooms = new HashSet[256];
-        for (HashSet s : rooms){
-            s = new HashSet<Character>();
+    LinkedList<Integer>[] vertices;
+    int size;
+    int edges;
+    public Graph(int numVert){
+        vertices = new LinkedList[numVert];
+        size = numVert;
+        edges = 0;
+
+        for (int i = 0; i < vertices.length; i++){
+            vertices[i] = new LinkedList<>();
         }
     }
 
-    public void connect(char room1, char room2){
-        rooms[(int)room1].add(room2);
-        rooms[(int)room2].add(room1);
+    public void addEdge(int first, int second){
+        vertices[first].addFirst(second);
+        vertices[second].addFirst(first);
+        edges++;
     }
 
-    public boolean pathExists(char room1, char room2){
-        boolean[] visited = new boolean[rooms.length];
-        LinkedList<Character> queue = new LinkedList<>();
-        queue.add(room1);
-        visited[(int)room1] = true;
-        Iterator<Character> i;
-        while (queue.size() > 0){
-            room1 = queue.pop();
-            i = rooms[(int)room1].iterator();
-            char current;
-            while (i.hasNext()){
-                current = i.next();
-                if (current == room2){
-                    return true;
-                }
+    public Iterable<Integer> connections(int vertex){
+        return vertices[vertex];
+    }
 
-                if (!visited[(int)current]){
-                    visited[(int)current] = true;
-                    queue.add(current);
-                }
-            }
-        }
-        return false;
+    public boolean pathExists(int first, int second){
+        DepthFirstSearch dfs = new DepthFirstSearch(this, first);
+        return dfs.pathExists(second);
     }
 }
