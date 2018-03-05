@@ -22,9 +22,13 @@ public class Main {
             for (String str : connections){
                 graph.addEdge(roomCodes.get(str.charAt(0)), roomCodes.get(str.charAt(1)));
             }
-
             String path = in.nextLine();
-            System.out.println(graph.pathExists(roomCodes.get(path.charAt(0)), roomCodes.get(path.charAt(1))) ? "yes" : "no");
+            if (input.contains(path.substring(0, 1)) && input.contains(path.substring(1, 2))){
+                System.out.println(graph.pathExists(roomCodes.get(path.charAt(0)), roomCodes.get(path.charAt(1))) ? "yes" : "no");
+            } else {
+                System.out.println("no");
+            }
+
         }
     }
 }
